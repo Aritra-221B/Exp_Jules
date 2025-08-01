@@ -1,11 +1,9 @@
-import PricingSection from '@/components/PricingSection/PricingSection';
+import Game from '@/components/PianoGame/Game';
 
 export default function Home() {
   return (
-    <div>
-      <main className="min-h-screen">
-        <PricingSection />
-      </main>
-    </div>
+    <main className="min-h-screen">
+      <Game />
+    </main>
   );
 }
