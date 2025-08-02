@@ -45,7 +45,7 @@ const Piano: React.FC<PianoProps> = ({ pressedKeys = [], onTouchStart, onTouchEn
                     onTouchStart={() => onTouchStart?.(note)}
                     onTouchEnd={() => onTouchEnd?.(note)}
                 >
-                    {/* The note name is removed from here */}
+                    <span className="font-bold text-xs sm:text-base md:text-lg select-none">{note}</span>
                 </div>
             )
         })}
@@ -70,7 +70,7 @@ const Piano: React.FC<PianoProps> = ({ pressedKeys = [], onTouchStart, onTouchEn
                 onTouchStart={() => onTouchStart?.(note)}
                 onTouchEnd={() => onTouchEnd?.(note)}
             >
-                {/* The note name is removed from here */}
+                <span className="font-bold text-white text-[8px] sm:text-xs md:text-sm select-none">{note}</span>
             </div>
       )})}
     </div>
