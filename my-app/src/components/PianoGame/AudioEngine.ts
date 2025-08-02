@@ -6,6 +6,12 @@ export class AudioEngine {
     this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
   }
 
+  resume() {
+    if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
+  }
+
   async loadSounds(soundMap: { [note: string]: string }) {
     for (const note in soundMap) {
       const url = soundMap[note];
@@ -21,6 +27,7 @@ export class AudioEngine {
   }
 
   playSound(note: string) {
+    this.resume(); // Ensure context is running
     const buffer = this.buffers.get(note);
     if (buffer) {
       const source = this.audioContext.createBufferSource();

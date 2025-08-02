@@ -119,6 +119,7 @@ const Game: React.FC = () => {
   };
 
   const handleNotePress = (note: string) => {
+    audioEngineRef.current?.resume();
     audioEngineRef.current?.playSound(note);
     setPressedKeys(prev => [...prev, note]);
     if (gameState === 'playing') {
@@ -201,11 +202,13 @@ const Game: React.FC = () => {
   };
 
   const handleSelectSong = (song: Song) => {
+    audioEngineRef.current?.resume();
     setSelectedSong(song);
     setGameState('playing');
   };
 
   const handleFreestyle = () => {
+    audioEngineRef.current?.resume();
     setGameState('freestyle');
   }
 
