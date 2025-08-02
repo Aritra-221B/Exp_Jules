@@ -1,30 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { songs, Song } from './songs';
+import UserGuide from './UserGuide';
 
 interface SongSelectionProps {
   onSelectSong: (song: Song) => void;
   onFreestyle: () => void;
+  highScores: { [songTitle: string]: number };
 }
 
-const SongSelection: React.FC<SongSelectionProps> = ({ onSelectSong, onFreestyle }) => {
+const SongSelection: React.FC<SongSelectionProps> = ({ onSelectSong, onFreestyle, highScores }) => {
+  const [showGuide, setShowGuide] = useState(false);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 text-white">
-      <h1 className="text-5xl font-bold mb-12">Select a Song</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 text-white p-4 sm:p-8">
+      {showGuide && <UserGuide onClose={() => setShowGuide(false)} />}
+      <div className="absolute top-4 right-4 sm:top-8 sm:right-8">
+        <button
+            onClick={() => setShowGuide(true)}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full"
+        >
+            ?
+        </button>
+      </div>
+      <h1 className="text-4xl sm:text-5xl font-bold mb-8 sm:mb-12 text-center">Select a Song</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
         {songs.map((song) => (
-          <button
-            key={song.title}
-            onClick={() => onSelectSong(song)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-2xl transition-transform transform hover:scale-105"
-          >
-            {song.title}
-          </button>
+          <div key={song.title} className="flex flex-col items-center">
+            <button
+              onClick={() => onSelectSong(song)}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg text-lg sm:text-2xl transition-transform transform hover:scale-105 w-full"
+            >
+              {song.title}
+            </button>
+            <p className="mt-2 text-lg">High Score: {highScores[song.title] || 0}</p>
+          </div>
         ))}
       </div>
-      <div className="mt-12">
+      <div className="mt-8 sm:mt-12">
         <button
             onClick={onFreestyle}
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg text-2xl transition-transform transform hover:scale-105"
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg text-lg sm:text-2xl transition-transform transform hover:scale-105"
         >
             Freestyle
         </button>
