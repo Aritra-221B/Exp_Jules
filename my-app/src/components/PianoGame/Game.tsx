@@ -7,6 +7,8 @@ import GameOver from './GameOver';
 import Particle from './Particle';
 import { Song } from './songs';
 import { getHighScores, setHighScore } from './storage';
+import { AudioEngine } from './AudioEngine';
+import { soundMap } from './sounds';
 
 const noteToColumn: { [key: string]: number } = {
   'C': 0, 'D': 1, 'E': 2, 'F': 3, 'G': 4, 'A': 5, 'B': 6,
@@ -14,9 +16,11 @@ const noteToColumn: { [key: string]: number } = {
 
 const keyToNote: { [key: string]: string } = {
   // White keys
-  'a': 'C', 's': 'D', 'd': 'E', 'f': 'F', 'g': 'G', 'h': 'A', 'j': 'B',
+  'a': 'C4', 's': 'D4', 'd': 'E4', 'f': 'F4', 'g': 'G4', 'h': 'A4', 'j': 'B4',
+  'k': 'C5', 'l': 'D5', ';': 'E5', "'": 'F5',
   // Black keys
-  'w': 'Db', 'e': 'Eb', 't': 'Gb', 'y': 'Ab', 'u': 'Bb',
+  'w': 'Db4', 'e': 'Eb4', 't': 'Gb4', 'y': 'Ab4', 'u': 'Bb4',
+  'i': 'Db5', 'o': 'Eb5', 'p': 'Gb5', '[': 'Ab5', ']': 'Bb5',
 };
 
 const HIT_ZONE_CENTER = 550;
@@ -37,6 +41,7 @@ const Game: React.FC = () => {
   const [accuracy, setAccuracy] = useState<Accuracy | null>(null);
   const [highScores, setHighScores] = useState<{ [songTitle: string]: number }>({});
   const [particles, setParticles] = useState<{ x: number; y: number; id: number }[]>([]);
+  const audioEngineRef = useRef<AudioEngine | null>(null);
   const gameTimeRef = useRef(0);
   const startTimeRef = useRef(0);
   const lastNoteIndexRef = useRef(0);
@@ -46,6 +51,8 @@ const Game: React.FC = () => {
 
   useEffect(() => {
     setHighScores(getHighScores());
+    audioEngineRef.current = new AudioEngine();
+    audioEngineRef.current.loadSounds(soundMap);
   }, []);
 
   useEffect(() => {
@@ -59,7 +66,7 @@ const Game: React.FC = () => {
         let newNotes: { note: string; startTime: number; x: number; y: number; id: number }[] = [];
         if (lastNoteIndexRef.current < selectedSong.notes.length && selectedSong.notes[lastNoteIndexRef.current].time <= gameTimeRef.current) {
             const noteData = selectedSong.notes[lastNoteIndexRef.current];
-            const column = noteToColumn[noteData.note];
+            const column = noteToColumn[noteData.note[0]];
             const pianoWidth = pianoContainerRef.current?.clientWidth || 0;
             if (column !== undefined && pianoWidth > 0) {
                 newNotes.push({
@@ -112,6 +119,7 @@ const Game: React.FC = () => {
   };
 
   const handleNotePress = (note: string) => {
+    audioEngineRef.current?.playSound(note);
     setPressedKeys(prev => [...prev, note]);
     if (gameState === 'playing') {
         const hitNote = activeNotes.find(activeNote => {

@@ -7,41 +7,49 @@ interface PianoProps {
 }
 
 const Piano: React.FC<PianoProps> = ({ pressedKeys = [], onTouchStart, onTouchEnd }) => {
-  const whiteKeys = ['C', 'D', 'E', 'F', 'G', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'A', 'B'];
+  const whiteKeys = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5', 'E5', 'F5', 'G5', 'A5', 'B5'];
   const blackKeys = [
-    { note: 'Db', position: 1 },
-    { note: 'Eb', position: 2 },
-    { note: 'Gb', position: 4 },
-    { note: 'Ab', position: 5 },
-    { note: 'Bb', position: 6 },
-    { note: 'Db', position: 8 },
-    { note: 'Eb', position: 9 },
-    { note: 'Gb', position: 11 },
-    { note: 'Ab', position: 12 },
-    { note: 'Bb', position: 13 },
+    { note: 'Db4', position: 1 },
+    { note: 'Eb4', position: 2 },
+    { note: 'Gb4', position: 4 },
+    { note: 'Ab4', position: 5 },
+    { note: 'Bb4', position: 6 },
+    { note: 'Db5', position: 8 },
+    { note: 'Eb5', position: 9 },
+    { note: 'Gb5', position: 11 },
+    { note: 'Ab5', position: 12 },
+    { note: 'Bb5', position: 13 },
   ];
 
   const whiteKeyWidth = 100 / whiteKeys.length;
 
   return (
-    <div className="relative flex justify-center w-full max-w-4xl mx-auto">
-      {/* White Keys */}
-      {whiteKeys.map((note, index) => {
-        const isPressed = pressedKeys.includes(note);
-        return (
-            <div
-                key={`white-${note}-${index}`}
-                className={`h-48 sm:h-56 md:h-64 border-2 border-gray-400 rounded-b-lg shadow-lg flex items-end justify-center pb-2 sm:pb-4 transition-colors duration-100 ${
-                    isPressed ? 'bg-gray-300' : 'bg-white'
-                }`}
-                style={{ width: `${whiteKeyWidth}%` }}
-                onTouchStart={() => onTouchStart?.(note)}
-                onTouchEnd={() => onTouchEnd?.(note)}
-            >
-                <span className="font-bold text-xs sm:text-base md:text-lg">{note}</span>
-            </div>
-        )
-      })}
+    <div className="relative flex justify-center w-full max-w-4xl mx-auto shadow-2xl rounded-b-lg" role="application">
+      <div className="flex w-full">
+        {/* White Keys */}
+        {whiteKeys.map((note, index) => {
+            const isPressed = pressedKeys.includes(note);
+            return (
+                <div
+                    key={`white-${note}-${index}`}
+                    role="button"
+                    aria-label={`Piano key ${note}`}
+                    aria-pressed={isPressed}
+                    tabIndex={0}
+                    className={`h-48 sm:h-56 md:h-64 border-2 border-black rounded-b-lg flex items-end justify-center pb-2 sm:pb-4 transition-all duration-75 ${
+                        isPressed ? 'bg-gray-200 transform-gpu scale-y-95' : 'bg-white'
+                    }`}
+                    style={{ width: `${whiteKeyWidth}%`, background: isPressed ? '#e5e5e5' : 'linear-gradient(to bottom, #fff 0%, #eee 100%)' }}
+                    onMouseDown={() => onTouchStart?.(note)}
+                    onMouseUp={() => onTouchEnd?.(note)}
+                    onTouchStart={() => onTouchStart?.(note)}
+                    onTouchEnd={() => onTouchEnd?.(note)}
+                >
+                    <span className="font-bold text-xs sm:text-base md:text-lg select-none">{note}</span>
+                </div>
+            )
+        })}
+      </div>
 
       {/* Black Keys */}
       {blackKeys.map(({ note, position }) => {
@@ -49,14 +57,20 @@ const Piano: React.FC<PianoProps> = ({ pressedKeys = [], onTouchStart, onTouchEn
         return (
             <div
                 key={`black-${note}`}
-                className={`absolute top-0 h-28 sm:h-32 md:h-40 w-[${whiteKeyWidth * 0.6}%] rounded-b-md shadow-xl flex items-end justify-center pb-1 sm:pb-2 transition-colors duration-100 ${
-                    isPressed ? 'bg-gray-600' : 'bg-black'
+                role="button"
+                aria-label={`Piano key ${note}`}
+                aria-pressed={isPressed}
+                tabIndex={0}
+                className={`absolute top-0 h-28 sm:h-32 md:h-40 w-[${whiteKeyWidth * 0.6}%] rounded-b-md shadow-xl flex items-end justify-center pb-1 sm:pb-2 transition-all duration-75 z-10 ${
+                    isPressed ? 'bg-gray-700 transform-gpu scale-y-95' : 'bg-black'
                 }`}
-                style={{ left: `${position * whiteKeyWidth - (whiteKeyWidth * 0.3)}%` }}
+                style={{ left: `${position * whiteKeyWidth - (whiteKeyWidth * 0.3)}%`, background: isPressed ? '#333' : 'linear-gradient(to bottom, #444 0%, #222 100%)' }}
+                onMouseDown={() => onTouchStart?.(note)}
+                onMouseUp={() => onTouchEnd?.(note)}
                 onTouchStart={() => onTouchStart?.(note)}
                 onTouchEnd={() => onTouchEnd?.(note)}
             >
-                <span className="font-bold text-white text-[8px] sm:text-xs md:text-sm">{note}</span>
+                <span className="font-bold text-white text-[8px] sm:text-xs md:text-sm select-none">{note}</span>
             </div>
       )})}
     </div>

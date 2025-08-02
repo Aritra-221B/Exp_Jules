@@ -1,0 +1,28 @@
+const BASE_URL = 'https://theremin.music.uiowa.edu/sound files/MIS/Piano_Other/piano/';
+
+export const soundMap: { [note: string]: string } = {
+    'C4': `${BASE_URL}Piano.mf.C4.mp3`,
+    'Db4': `${BASE_URL}Piano.mf.Db4.mp3`,
+    'D4': `${BASE_URL}Piano.mf.D4.mp3`,
+    'Eb4': `${BASE_URL}Piano.mf.Eb4.mp3`,
+    'E4': `${BASE_URL}Piano.mf.E4.mp3`,
+    'F4': `${BASE_URL}Piano.mf.F4.mp3`,
+    'Gb4': `${BASE_URL}Piano.mf.Gb4.mp3`,
+    'G4': `${BASE_URL}Piano.mf.G4.mp3`,
+    'Ab4': `${BASE_URL}Piano.mf.Ab4.mp3`,
+    'A4': `${BASE_URL}Piano.mf.A4.mp3`,
+    'Bb4': `${BASE_URL}Piano.mf.Bb4.mp3`,
+    'B4': `${BASE_URL}Piano.mf.B4.mp3`,
+    'C5': `${BASE_URL}Piano.mf.C5.mp3`,
+    'Db5': `${BASE_URL}Piano.mf.Db5.mp3`,
+    'D5': `${BASE_URL}Piano.mf.D5.mp3`,
+    'Eb5': `${BASE_URL}Piano.mf.Eb5.mp3`,
+    'E5': `${BASE_URL}Piano.mf.E5.mp3`,
+    'F5': `${BASE_URL}Piano.mf.F5.mp3`,
+    'Gb5': `${BASE_URL}Piano.mf.Gb5.mp3`,
+    'G5': `${BASE_URL}Piano.mf.G5.mp3`,
+    'Ab5': `${BASE_URL}Piano.mf.Ab5.mp3`,
+    'A5': `${BASE_URL}Piano.mf.A5.mp3`,
+    'Bb5': `${BASE_URL}Piano.mf.Bb5.mp3`,
+    'B5': `${BASE_URL}Piano.mf.B5.mp3`,
+};
