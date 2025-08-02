@@ -1,9 +1,9 @@
-import Game from '@/components/PianoGame/Game';
+import ChordMasterGame from '@/components/ChordMaster/ChordMasterGame';
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Game />
+      <ChordMasterGame />
     </main>
   );
 }

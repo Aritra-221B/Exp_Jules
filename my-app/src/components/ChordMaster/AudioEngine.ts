@@ -27,13 +27,20 @@ export class AudioEngine {
   }
 
   playSound(note: string) {
-    this.resume(); // Ensure context is running
+    this.resume();
     const buffer = this.buffers.get(note);
     if (buffer) {
       const source = this.audioContext.createBufferSource();
       source.buffer = buffer;
       source.connect(this.audioContext.destination);
       source.start(0);
+    }
+  }
+
+  playChord(notes: string[]) {
+    this.resume();
+    for (const note of notes) {
+      this.playSound(note);
     }
   }
 }
